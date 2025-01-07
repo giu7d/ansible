@@ -1,0 +1,8 @@
+---
+- name: Setup personal computer
+  hosts: vm
+  roles:
+    - chaotic_aur
+    - base_applications
+    - gnome
+    - gdm
