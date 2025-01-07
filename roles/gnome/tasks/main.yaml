@@ -1,0 +1,28 @@
+- name: Check if WhiteSur Icon Theme exists
+  ansible.builtin.stat:
+    path: "{{ white_sur_icon_folder_path }}"
+  register: is_white_sur_installed
+
+- name: Setup WhiteSur Icon Theme
+  when: not is_white_sur_installed.stat.exists
+  become: true
+  become_user: "giuseppe"
+  block:
+    - name: Setup WhiteSur Icon Theme -> Clone repository
+      ansible.builtin.git:
+        repo: "https://github.com/vinceliuice/WhiteSur-icon-theme.git"
+        dest: "{{ white_sur_tmp_folder_path }}"
+        update: true
+
+    - name: Setup WhiteSur Icon Theme -> Install theme
+      ansible.builtin.command: "./install.sh -a"
+      args:
+        chdir: "{{ white_sur_tmp_folder_path }}"
+
+    - name: Setup WhiteSur Icon Theme -> Enable theme
+      ansible.builtin.command: gsettings set org.gnome.desktop.interface icon-theme "WhiteSur"
+
+    - name: Setup WhiteSur Icon Theme -> Cleanup repository
+      ansible.builtin.file:
+        path: "{{ white_sur_tmp_folder_path }}"
+        state: absent
