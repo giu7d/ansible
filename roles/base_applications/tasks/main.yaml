@@ -1,0 +1,13 @@
+- name: Update Applications
+  become: true
+  ansible.builtin.pacman:
+    upgrade: true
+
+- name: Install Applications
+  become: true
+  ansible.builtin.pacman:
+    name:
+      - git
+      - yay
+      - stow
+    state: present
