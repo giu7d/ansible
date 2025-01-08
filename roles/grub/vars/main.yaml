@@ -1,0 +1,3 @@
+repo_tmp_folder_path: "/tmp/GraphiteTheme"
+grub_theme_tmp_folder_path: "/tmp/GraphiteTheme/other/grub2"
+grub_theme_folder_path: "/usr/share/grub/themes/Graphite"

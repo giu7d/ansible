@@ -2,7 +2,11 @@
 
 My ansible setup.
 
-**WIP**...
+## Run
+
+```sh
+ ansible-playbook runbook-personal.yaml -kK
+```
 
 <!-- Setup YAY to use no password  -->
 <!-- Remove this later  -->

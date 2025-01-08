@@ -1,0 +1,42 @@
+- name: Check if Grub Theme exists
+  ansible.builtin.stat:
+    path: "{{ grub_theme_folder_path }}"
+  register: is_grub_theme_installed
+
+- name: Setup Grub Theme
+  when: not is_grub_theme_installed.stat.exists
+  become: true
+  block:
+    - name: Setup Grub Theme -> Clone Graphite repository
+      ansible.builtin.git:
+        repo: "https://github.com/vinceliuice/Graphite-gtk-theme.git"
+        dest: "{{ repo_tmp_folder_path }}"
+        update: true
+
+    - name: Setup Grub Theme  -> Remove default background image
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ grub_theme_tmp_folder_path }}/backgrounds/1080p/wave-dark.png"
+        - "{{ grub_theme_tmp_folder_path }}/backgrounds/1080p/wave-light.png"
+
+    - name: Setup Grub Theme -> Copy background image
+      copy:
+        src: dark-grid.png
+        dest: "{{ item }}"
+        force: false
+        mode: u+rw,g+r,o--r
+      loop:
+        - "{{ grub_theme_tmp_folder_path }}/backgrounds/1080p/wave-dark.png"
+        - "{{ grub_theme_tmp_folder_path }}/backgrounds/1080p/wave-light.png"
+
+    - name: Setup Grub Theme  -> Install theme
+      ansible.builtin.command: "./install.sh -b"
+      args:
+        chdir: "{{ grub_theme_tmp_folder_path }}"
+
+    - name: Setup Grub Theme  -> Cleanup Graphite repository
+      ansible.builtin.file:
+        path: "{{ repo_tmp_folder_path }}"
+        state: absent

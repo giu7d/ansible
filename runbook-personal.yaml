@@ -1,4 +1,3 @@
----
 - name: Setup personal computer
   hosts: vm
   roles:
@@ -6,3 +5,4 @@
     - base_applications
     - gnome
     - gdm
+    - grub
