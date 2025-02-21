@@ -1,4 +1,4 @@
-arch:
+personal:
   hosts:
     vm:
       ansible_host: localhost

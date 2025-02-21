@@ -6,7 +6,7 @@
 - name: Setup WhiteSur Icon Theme
   when: not is_white_sur_installed.stat.exists
   become: true
-  become_user: "giuseppe"
+  become_user: "{{ username }}"
   block:
     - name: Setup WhiteSur Icon Theme -> Clone repository
       ansible.builtin.git:
