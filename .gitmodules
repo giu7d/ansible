@@ -1,0 +1,3 @@
+[submodule "libraries/yay"]
+	path = libraries/yay
+	url = git@github.com:mnussbaum/ansible-yay.git
