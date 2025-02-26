@@ -1,0 +1,9 @@
+
+- name: Setup Gnome Extensions -> Dash To Dock
+  include_role: 
+    name: luizgavalda.gnome_extensions
+  vars: 
+    gnome_extension_ids:
+      - 307   # Dash To Dock          https://extensions.gnome.org/extension/307/dash-to-dock/
+      - 2890  # Tray Icons Reloaded   https://extensions.gnome.org/extension/2890/tray-icons-reloaded/
+      - 3193  # Blur My Shell         https://extensions.gnome.org/extension/3193/blur-my-shell/

@@ -1,0 +1,6 @@
+
+roles:
+  - name: luizgavalda.gnome_extensions
+
+collections:
+  - name: community.general
