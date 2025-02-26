@@ -1,0 +1,60 @@
+- name: Setup Applications -> Update
+  become: true
+  ansible.builtin.pacman:
+    upgrade: true
+
+
+- name: Setup Applications -> Install
+  become: true
+  block:
+    - name: Setup Applications -> Install -> Dependencies 
+      ansible.builtin.pacman:
+        name:
+          - git
+          - yay
+          - stow
+        state: present
+
+    - name: Setup Applications -> Install -> Packages from AUR
+      yay:
+        name:
+          - github-cli
+          - proton-vpn-gtk-app
+          - chaotic-aur/visual-studio-code-bin
+          - chaotic-aur/gdm-settings
+        state: present
+
+    - name: Setup Applications -> Install -> Packages from flatpak
+      community.general.flatpak:
+        name:
+          - app.zen_browser.zen
+          - md.obsidian.Obsidian
+          - com.bitwarden.desktop
+          # Image Utils
+          - com.github.huluti.Coulr
+          - io.gitlab.adhami3310.Converter
+          - page.kramo.Sly
+          - dev.geopjr.Calligraphy
+          # Development
+          - rest.insomnia.Insomnia
+          - io.beekeeperstudio.Studio
+          # Chat
+          - com.discordapp.Discord
+          - org.telegram.desktop
+          # Media
+          - com.spotify.Client
+          - tv.plex.PlexDesktop
+          - org.gnome.Decibels
+          # Games
+          - com.valvesoftware.Steam
+          - com.usebottles.bottles
+        state: latest
+
+
+- name: Setup Applications -> Setup Git
+  become: true
+  block:
+    - name: Setup Applications -> Setup Git -> User Name
+      ansible.builtin.command: 'git config --global user.name "Giuseppe Setem"'
+    - name: Setup Applications -> Setup Git -> User Name
+      ansible.builtin.command: 'git config --global user.email "giuseppe7d@gmail.com"'
