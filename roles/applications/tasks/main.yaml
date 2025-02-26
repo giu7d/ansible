@@ -18,8 +18,10 @@
     - name: Setup Applications -> Install -> Packages from AUR
       yay:
         name:
+          - kitty
           - github-cli
           - proton-vpn-gtk-app
+          - aur/docker-desktop
           - chaotic-aur/visual-studio-code-bin
           - chaotic-aur/gdm-settings
         state: present
