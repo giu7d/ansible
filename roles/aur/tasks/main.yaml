@@ -1,37 +1,37 @@
-- name: Check if Chaotic AUR exists
+- name: Check if AUR exists
   ansible.builtin.stat:
-    path: "{{ chaotic_mirrorlist_file_path }}"
-  register: is_chaotic_installed
+    path: "{{ __aur__chaotic_mirrorlist_file_path }}"
+  register: is_aur_installed
 
-- name: Setup Chaotic AUR
-  when: not is_chaotic_installed.stat.exists
+- name: Setup AUR
+  when: not is_aur_installed.stat.exists
   become: true
   block:
-    - name: Setup Chaotic AUR -> Import key
+    - name: Setup AUR -> Import key
       ansible.builtin.command: pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
       changed_when: false
 
-    - name: Setup Chaotic AUR -> Sign key
+    - name: Setup AUR -> Sign key
       ansible.builtin.command: pacman-key --lsign-key 3056513887B78AEB
       changed_when: false
 
-    - name: Setup Chaotic AUR -> Install keyring
+    - name: Setup AUR -> Install keyring
       ansible.builtin.command: pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' --noconfirm
       changed_when: false
 
-    - name: Setup Chaotic AUR -> Install mirrorlist
+    - name: Setup AUR -> Install mirrorlist
       ansible.builtin.command: pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' --noconfirm
       changed_when: false
 
-    - name: Setup Chaotic AUR -> Verify pacman.conf contents
-      ansible.builtin.command: "cat {{ pacman_conf_file_path }}"
+    - name: Setup AUR -> Verify pacman.conf contents
+      ansible.builtin.command: "cat {{ __aur__pacman_conf_file_path }}"
       register: pacman_conf_output
       changed_when: false
 
-    - name: Setup Chaotic AUR -> Add chaotic-aur repository to pacman.conf
+    - name: Setup AUR -> Add chaotic-aur repository to pacman.conf
       become: true
       ansible.builtin.lineinfile:
-        path: "{{ pacman_conf_file_path }}"
+        path: "{{ __aur__pacman_conf_file_path }}"
         line: |
           [chaotic-aur]
           Include = /etc/pacman.d/chaotic-mirrorlist
@@ -40,7 +40,7 @@
       changed_when: false
       failed_when: false
 
-    - name: Setup Chaotic AUR -> Update packages
+    - name: Setup AUR -> Update packages
       ansible.builtin.pacman:
         update_cache: true
       changed_when: false

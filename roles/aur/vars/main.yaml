@@ -1,2 +1,2 @@
-pacman_conf_file_path: "/etc/pacman.conf"
-chaotic_mirrorlist_file_path: "/etc/pacman.d/chaotic-mirrorlist"
+__aur__pacman_conf_file_path: "/etc/pacman.conf"
+__aur__chaotic_mirrorlist_file_path: "/etc/pacman.d/chaotic-mirrorlist"

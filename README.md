@@ -5,7 +5,7 @@ My ansible setup.
 ## Run
 
 ```sh
- ansible-playbook runbook-personal.yaml -kK
+ ansible-playbook -i inventories/dev.yaml personal_playbook.yaml -kK
 ```
 
 <!-- Setup YAY to use no password  -->
