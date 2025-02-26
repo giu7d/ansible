@@ -1,0 +1,4 @@
+__gnome_icon_theme__name: "WhiteSur"
+__gnome_icon_theme__git_repo: "https://github.com/vinceliuice/WhiteSur-icon-theme.git"
+__gnome_icon_theme__tmp_folder_path: "/tmp/WhiteSur-icon-theme"
+__gnome_icon_theme__folder_path: "/home/{{ username }}/.local/share/icons/WhiteSur"
