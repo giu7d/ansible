@@ -1,8 +1,7 @@
 - name: Setup personal computer
-  hosts: all
+  hosts: local
   roles:
     - aur
-    - base_applications
-    - gnome
-    - gdm
+    - applications
+    - gnome_icon_theme
     - grub

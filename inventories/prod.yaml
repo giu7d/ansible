@@ -2,5 +2,4 @@ personal:
   hosts:
     local:
       ansible_host: localhost
-      ansible_port: 2222
-      ansible_user: giuseppe
+      ansible_connection: local
