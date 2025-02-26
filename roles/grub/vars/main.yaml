@@ -1,3 +1,4 @@
-repo_tmp_folder_path: "/tmp/GraphiteTheme"
-grub_theme_tmp_folder_path: "/tmp/GraphiteTheme/other/grub2"
-grub_theme_folder_path: "/usr/share/grub/themes/Graphite"
+__grub_theme__git_repo: "https://github.com/vinceliuice/Graphite-gtk-theme.git"
+__grub_theme__git_repo_tmp_folder_path: "/tmp/GraphiteTheme"
+__grub_theme__tmp_folder_path: "/tmp/GraphiteTheme/other/grub2"
+__grub_theme__folder_path: "/usr/share/grub/themes/Graphite"
