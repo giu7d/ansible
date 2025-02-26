@@ -1,0 +1,43 @@
+- name: Check if Files exists
+  ansible.builtin.stat:
+    path: "{{ __gnome_desktop__wallpaper_file_path }}"
+  register: is_files_setup
+
+
+- name: Setup Files
+  when: not is_files_setup.stat.exists
+  block:
+    - name: Setup Files -> Ensure Wallpaper dir exists
+      file: 
+        path: "{{ __gnome_desktop__wallpaper_folder_path }}"
+        state: directory
+
+    - name: Setup Files -> Ensure Profile dir exists
+      file: 
+        path: "{{ __gnome_desktop__profile_folder_path }}"
+        state: directory
+
+    - name: Setup Files -> Copy Wallpaper Image
+      copy:
+        src: Wallpapers/{{ __gnome_desktop__wallpaper_file_name }}
+        dest: "{{ __gnome_desktop__wallpaper_file_path }}"
+
+    - name: Setup Files -> Copy Profile Image
+      copy:
+        src: Profiles/{{ __gnome_desktop__profile_file_name }}
+        dest: "{{ __gnome_desktop__profile_file_path }}"
+
+
+- name: Setup Gnome Desktop
+  block:
+    - name: Setup Gnome Desktop -> Set Dark Color Scheme
+      ansible.builtin.command: gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+    
+    - name: Setup Gnome Desktop -> Set Tiel Accent Color
+      ansible.builtin.command: gsettings set org.gnome.desktop.interface accent-color slate
+    
+    - name: Setup Gnome Desktop -> Set Light Background Image
+      ansible.builtin.command: gsettings set org.gnome.desktop.background picture-uri "file://{{ __gnome_desktop__wallpaper_file_path }}"
+    
+    - name: Setup Gnome Desktop -> Set Dark Background Image
+      ansible.builtin.command: gsettings set org.gnome.desktop.background picture-uri-dark "file://{{ __gnome_desktop__wallpaper_file_path }}"

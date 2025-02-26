@@ -5,4 +5,5 @@
     - applications
     - gnome_icon_theme
     - gnome_extensions
+    - gnome_desktop
     - grub
