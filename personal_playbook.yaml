@@ -7,6 +7,6 @@
     - dotfiles
     - terminal
     - gnome_icon_theme
-    - gnome_extensions
+    # - gnome_extensions
     - gnome_desktop
     - brtfs_snapshots

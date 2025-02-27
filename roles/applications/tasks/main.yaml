@@ -3,15 +3,16 @@
   ansible.builtin.pacman:
     upgrade: true
 
-
 - name: Applications -> Install
   become: true
   block:
-    - name: Applications -> Install -> Dependencies 
+    - name: Applications -> Install -> Dependencies
       ansible.builtin.pacman:
         name:
           - git
           - yay
+          - ttf-fira-code
+          - ttf-jetbrains-mono
         state: present
 
     - name: Applications -> Install -> Packages from YAY
@@ -20,6 +21,7 @@
           - github-cli
           - proton-vpn-gtk-app
           - aur/docker-desktop
+          - chaotic-aur/yubico-authenticator-bin
           - chaotic-aur/asdf-vm
           - chaotic-aur/visual-studio-code-bin
           - chaotic-aur/gdm-settings
