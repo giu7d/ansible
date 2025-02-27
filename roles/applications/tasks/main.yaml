@@ -16,8 +16,12 @@
           - zsh
           - kitty
           - fastfetch
+          - neovim
           - github-cli
           - proton-vpn-gtk-app
+          - timeshift
+          - grub-btrfs
+          - inotify-tools
         state: present
 
     - name: Setup Applications -> Install -> Packages from AUR
@@ -27,6 +31,7 @@
           - chaotic-aur/asdf-vm
           - chaotic-aur/visual-studio-code-bin
           - chaotic-aur/gdm-settings
+          - chaotic-aur/timeshift-autosnap
         state: present
 
     - name: Setup Applications -> Install -> Packages from flatpak
