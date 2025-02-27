@@ -52,7 +52,7 @@
     - name: Terminal -> Setup ZSH  -> Install typewritten theme
       ansible.builtin.git:
         repo: https://github.com/reobin/typewritten.git
-        dest: "__terminal__themes_typewritten_folder_path"
+        dest: "{{ __terminal__themes_typewritten_folder_path }}"
         depth: 1
 
     - name: Terminal -> Setup ZSH  -> Link typewritten theme
