@@ -13,15 +13,18 @@
           - git
           - yay
           - stow
+          - zsh
+          - kitty
+          - fastfetch
+          - github-cli
+          - proton-vpn-gtk-app
         state: present
 
     - name: Setup Applications -> Install -> Packages from AUR
       yay:
         name:
-          - kitty
-          - github-cli
-          - proton-vpn-gtk-app
           - aur/docker-desktop
+          - chaotic-aur/asdf-vm
           - chaotic-aur/visual-studio-code-bin
           - chaotic-aur/gdm-settings
         state: present
@@ -51,12 +54,3 @@
           - com.valvesoftware.Steam
           - com.usebottles.bottles
         state: latest
-
-
-- name: Setup Applications -> Setup Git
-  become: true
-  block:
-    - name: Setup Applications -> Setup Git -> User Name
-      ansible.builtin.command: 'git config --global user.name "Giuseppe Setem"'
-    - name: Setup Applications -> Setup Git -> User Name
-      ansible.builtin.command: 'git config --global user.email "giuseppe7d@gmail.com"'
