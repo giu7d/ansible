@@ -1,0 +1,5 @@
+
+__terminal__ohmyzsh_folder_path: "~/.config/zsh/ohmyzsh"
+__terminal__plugins_folder_path: "~/.config/zsh/ohmyzsh/custom/plugins"
+__terminal__themes_folder_path: "~/.config/zsh/ohmyzsh/custom/themes"
+__terminal__themes_typewritten_folder_path: "{{ __terminal__themes_folder_path }}/typewritten"
