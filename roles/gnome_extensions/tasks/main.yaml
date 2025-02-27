@@ -1,5 +1,5 @@
 
-- name: Setup Gnome Extensions -> Dash To Dock
+- name: Gnome Extensions -> Setup
   include_role: 
     name: luizgavalda.gnome_extensions
   vars: 

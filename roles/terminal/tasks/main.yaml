@@ -1,59 +1,71 @@
-- name: Check If ZSH Exist
+
+- name: Terminal -> Check If ZSH Exist
   ansible.builtin.stat:
     path: "{{ __terminal__ohmyzsh_folder_path }}"
   register: is_zsh_setup
 
-- name: Setup ZSH 
+- name: Terminal -> Install
+  when: not is_zsh_setup.stat.exists
+  become: true
+  yay:
+    name:
+      - zsh
+      - kitty
+      - fastfetch
+      - neovim
+    state: present
+
+- name: Terminal -> Setup ZSH
   when: not is_zsh_setup.stat.exists
   block:
-    - name: Setup ZSH  -> Set ZSH as the default terminal 
+    - name: Terminal -> Setup ZSH  -> Set ZSH as the default terminal 
       user:
         name: "{{ username }}"
         shell: /bin/zsh
         state: present
       become: yes
         
-    - name: Setup ZSH  -> Install Oh My Zsh
+    - name: Terminal -> Setup ZSH  -> Install Oh My Zsh
       ansible.builtin.git:
         repo: https://github.com/ohmyzsh/ohmyzsh.git
         dest: "{{ __terminal__ohmyzsh_folder_path }}"
         depth: 1
 
-    - name: Setup ZSH  -> Install zsh-autosuggestions plugin
+    - name: Terminal -> Setup ZSH  -> Install zsh-autosuggestions plugin
       ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-autosuggestions
         dest: "{{ __terminal__plugins_folder_path }}/zsh-autosuggestions"
         depth: 1
 
-    - name: Setup ZSH  -> Install zsh-completions plugin
+    - name: Terminal -> Setup ZSH  -> Install zsh-completions plugin
       ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-completions
         dest: "{{ __terminal__plugins_folder_path }}/zsh-completions"
         depth: 1
 
-    - name: Setup ZSH  -> Install zsh-syntax-highlighting plugin
+    - name: Terminal -> Setup ZSH  -> Install zsh-syntax-highlighting plugin
       ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
         dest: "{{ __terminal__plugins_folder_path }}/zsh-syntax-highlighting"
         depth: 1
 
-    - name: Setup ZSH  -> Install typewritten theme
+    - name: Terminal -> Setup ZSH  -> Install typewritten theme
       ansible.builtin.git:
         repo: https://github.com/reobin/typewritten.git
         dest: "__terminal__themes_typewritten_folder_path"
         depth: 1
 
-    - name: Setup ZSH  -> Link typewritten theme
+    - name: Terminal -> Setup ZSH  -> Link typewritten theme
       ansible.builtin.command: 'ln -s "{{ __terminal__themes_typewritten_folder_path }}/typewritten.zsh-theme" "{{ __terminal__themes_folder_path }}/typewritten.zsh-theme"'
     
-    - name: Setup ZSH  -> Link typewritten theme assync
+    - name: Terminal -> Setup ZSH  -> Link typewritten theme assync
       ansible.builtin.command: 'ln -s "{{ __terminal__themes_typewritten_folder_path }}/async.zsh" "{{ __terminal__themes_folder_path }}/async"'
 
-
-- name: Setup Git
+- name: Terminal -> Setup Git
+  when: not is_zsh_setup.stat.exists
   block:
-    - name: Setup Git -> User Name
+    - name: Terminal -> Setup Git -> User Name
       ansible.builtin.command: 'git config --global user.name "{{ git_user_name }}"'
       
-    - name: Setup Git -> User Email
+    - name: Terminal -> Setup Git -> User Email
       ansible.builtin.command: 'git config --global user.email "{{ git_user_email }}"'

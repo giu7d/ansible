@@ -1,34 +1,34 @@
-- name: Check if AUR exists
+- name: AUR -> Check if AUR exists
   ansible.builtin.stat:
     path: "{{ __aur__chaotic_mirrorlist_file_path }}"
   register: is_aur_installed
 
-- name: Setup AUR
+- name: AUR -> Setup
   when: not is_aur_installed.stat.exists
   become: true
   block:
-    - name: Setup AUR -> Import key
+    - name: AUR -> Setup -> Import key
       ansible.builtin.command: pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
       changed_when: false
 
-    - name: Setup AUR -> Sign key
+    - name: AUR -> Setup -> Sign key
       ansible.builtin.command: pacman-key --lsign-key 3056513887B78AEB
       changed_when: false
 
-    - name: Setup AUR -> Install keyring
+    - name: AUR -> Setup -> Install keyring
       ansible.builtin.command: pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' --noconfirm
       changed_when: false
 
-    - name: Setup AUR -> Install mirrorlist
+    - name: AUR -> Setup -> Install mirrorlist
       ansible.builtin.command: pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' --noconfirm
       changed_when: false
 
-    - name: Setup AUR -> Verify pacman.conf contents
+    - name: AUR -> Setup -> Verify pacman.conf contents
       ansible.builtin.command: "cat {{ __aur__pacman_conf_file_path }}"
       register: pacman_conf_output
       changed_when: false
 
-    - name: Setup AUR -> Add chaotic-aur repository to pacman.conf
+    - name: AUR -> Setup -> Add chaotic-aur repository to pacman.conf
       become: true
       ansible.builtin.lineinfile:
         path: "{{ __aur__pacman_conf_file_path }}"
@@ -40,7 +40,7 @@
       changed_when: false
       failed_when: false
 
-    - name: Setup AUR -> Update packages
+    - name: AUR -> Setup -> Update packages
       ansible.builtin.pacman:
         update_cache: true
       changed_when: false

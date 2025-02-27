@@ -1,28 +1,28 @@
-- name: Check If Gnome Icon Theme Exists
+- name: Gnome Icon Theme -> Check If Gnome Icon Theme Exists
   ansible.builtin.stat:
     path: "{{ __gnome_icon_theme__folder_path }}"
   register: is_gnome_icon_theme_installed
 
-- name: Setup Gnome Icon Theme
+- name: Gnome Icon Theme -> Setup
   when: not is_gnome_icon_theme_installed.stat.exists
   become: true
   become_user: "{{ username }}"
   block:
-    - name: Setup Gnome Icon Theme -> Clone repository
+    - name: Gnome Icon Theme -> Setup -> Clone repository
       ansible.builtin.git:
         repo: "{{ __gnome_icon_theme__git_repo }}"
         dest: "{{ __gnome_icon_theme__tmp_folder_path }}"
         update: true
 
-    - name: Setup Gnome Icon Theme -> Install theme
+    - name: Gnome Icon Theme -> Setup -> Install theme
       ansible.builtin.command: "./install.sh -a -b"
       args:
         chdir: "{{ __gnome_icon_theme__tmp_folder_path }}"
 
-    - name: Setup Gnome Icon Theme -> Enable theme
+    - name: Gnome Icon Theme -> Setup -> Enable theme
       ansible.builtin.command: "gsettings set org.gnome.desktop.interface icon-theme '{{ __gnome_icon_theme__name }}'"
 
-    - name: Setup Gnome Icon Theme -> Cleanup repository
+    - name: Gnome Icon Theme -> Setup -> Cleanup repository
       ansible.builtin.file:
         path: "{{ __gnome_icon_theme__tmp_folder_path }}"
         state: absent

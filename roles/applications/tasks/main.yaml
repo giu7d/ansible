@@ -1,40 +1,31 @@
-- name: Setup Applications -> Update
+- name: Applications -> Update
   become: true
   ansible.builtin.pacman:
     upgrade: true
 
 
-- name: Setup Applications -> Install
+- name: Applications -> Install
   become: true
   block:
-    - name: Setup Applications -> Install -> Dependencies 
+    - name: Applications -> Install -> Dependencies 
       ansible.builtin.pacman:
         name:
           - git
           - yay
-          - stow
-          - zsh
-          - kitty
-          - fastfetch
-          - neovim
-          - github-cli
-          - proton-vpn-gtk-app
-          - timeshift
-          - grub-btrfs
-          - inotify-tools
         state: present
 
-    - name: Setup Applications -> Install -> Packages from AUR
+    - name: Applications -> Install -> Packages from YAY
       yay:
         name:
+          - github-cli
+          - proton-vpn-gtk-app
           - aur/docker-desktop
           - chaotic-aur/asdf-vm
           - chaotic-aur/visual-studio-code-bin
           - chaotic-aur/gdm-settings
-          - chaotic-aur/timeshift-autosnap
         state: present
 
-    - name: Setup Applications -> Install -> Packages from flatpak
+    - name: Applications -> Install -> Packages from flatpak
       community.general.flatpak:
         name:
           - app.zen_browser.zen

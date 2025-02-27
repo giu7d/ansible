@@ -4,9 +4,9 @@
     - aur
     - applications
     - grub
+    - dotfiles
+    - terminal
     - gnome_icon_theme
     - gnome_extensions
     - gnome_desktop
-    - dotfiles
-    - terminal
     - brtfs_snapshots
