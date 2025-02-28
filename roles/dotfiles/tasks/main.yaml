@@ -1,9 +1,7 @@
-
 - name: Dotfiles -> Check If Dotfiles Exist
   ansible.builtin.stat:
     path: "{{ __dotfiles__folder_path }}"
   register: is_dotfiles_setup
-
 
 - name: Dotfiles -> Install
   when: not is_dotfiles_setup.stat.exists
@@ -12,7 +10,6 @@
     name:
       - stow
     state: present
-
 
 - name: Dotfiles -> Setup
   when: not is_dotfiles_setup.stat.exists
@@ -24,17 +21,11 @@
         version: "{{ __dotfiles__git_repo_branch }}"
         update: true
 
-    - name: Dotfiles -> Setup -> Link Kitty
-      ansible.builtin.command: stow -t ~ kitty --adopt
+    - name: Dotfiles -> Setup -> Run stow
+      ansible.builtin.command: "stow -t ~ {{ item }} --adopt"
       args:
         chdir: "{{ __dotfiles__folder_path }}"
-
-    - name: Dotfiles -> Setup -> Link Neofetch
-      ansible.builtin.command: stow -t ~ neofetch --adopt
-      args:
-        chdir: "{{ __dotfiles__folder_path }}"
-
-    - name: Dotfiles -> Setup -> Link ZSH
-      ansible.builtin.command: stow -t ~ zsh --adopt
-      args:
-        chdir: "{{ __dotfiles__folder_path }}"
+      loop:
+        - kitty
+        - neofetch
+        - zsh

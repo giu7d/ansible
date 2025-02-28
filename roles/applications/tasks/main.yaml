@@ -1,13 +1,13 @@
 - name: Applications -> Update
   become: true
-  ansible.builtin.pacman:
+  community.general.pacman:
     upgrade: true
 
 - name: Applications -> Install
   become: true
   block:
     - name: Applications -> Install -> Dependencies
-      ansible.builtin.pacman:
+      community.general.pacman:
         name:
           - git
           - yay

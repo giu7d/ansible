@@ -1,36 +1,33 @@
-
 - name: BRTFS Snapshots -> Check If BRTFS Snapshot Exist
   ansible.builtin.stat:
     path: "{{ __brtfs_snapshots__grub_brtfs_service_path }}"
   register: is_brtfs_snapshots_setup
 
-
-- name: BRTFS Snapshots -> Install   
+- name: BRTFS Snapshots -> Install
   when: not is_brtfs_snapshots_setup.stat.exists
   become: true
   yay:
     name:
       - inotify-tools
       - timeshift
-      - grub-btrfsi
+      - grub-btrfs
       - chaotic-aur/timeshift-autosnap
     state: present
-        
 
-- name: BRTFS Snapshots -> Setup  
+- name: BRTFS Snapshots -> Setup
   when: not is_brtfs_snapshots_setup.stat.exists
   become: true
   block:
-    - name:  BRTFS Snapshots -> Setup -> Replace ExecStart line in grub-btrfsd service
+    - name: BRTFS Snapshots -> Setup -> Replace ExecStart line in grub-btrfsd service
       ansible.builtin.replace:
         path: "{{ __brtfs_snapshots__grub_brtfs_service_path }}"
-        regexp: '^ExecStart=/usr/bin/grub-btrfsd --syslog /.snapshots'
-        replace: 'ExecStart=/usr/bin/grub-btrfsd --syslog --timeshift-auto'
+        regexp: "^ExecStart=/usr/bin/grub-btrfsd --syslog /.snapshots"
+        replace: "ExecStart=/usr/bin/grub-btrfsd --syslog --timeshift-auto"
 
     - name: BRTFS Snapshots -> Setup -> Enable grub-btrfsd service
       ansible.builtin.systemd:
         name: grub-btrfsd
-        enabled: yes
+        enabled: true
 
     - name: BRTFS Snapshots -> Setup -> Start grub-btrfsd service
       ansible.builtin.systemd:

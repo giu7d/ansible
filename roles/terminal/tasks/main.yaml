@@ -1,4 +1,3 @@
-
 - name: Terminal -> Check If ZSH Exist
   ansible.builtin.stat:
     path: "{{ __terminal__ohmyzsh_folder_path }}"
@@ -18,13 +17,13 @@
 - name: Terminal -> Setup ZSH
   when: not is_zsh_setup.stat.exists
   block:
-    - name: Terminal -> Setup ZSH  -> Set ZSH as the default terminal 
-      user:
+    - name: Terminal -> Setup ZSH  -> Set ZSH as the default terminal
+      ansible.builtin.user:
         name: "{{ username }}"
         shell: /bin/zsh
         state: present
-      become: yes
-        
+      become: true
+
     - name: Terminal -> Setup ZSH  -> Install Oh My Zsh
       ansible.builtin.git:
         repo: https://github.com/ohmyzsh/ohmyzsh.git
@@ -57,7 +56,7 @@
 
     - name: Terminal -> Setup ZSH  -> Link typewritten theme
       ansible.builtin.command: 'ln -s "{{ __terminal__themes_typewritten_folder_path }}/typewritten.zsh-theme" "{{ __terminal__themes_folder_path }}/typewritten.zsh-theme"'
-    
+
     - name: Terminal -> Setup ZSH  -> Link typewritten theme assync
       ansible.builtin.command: 'ln -s "{{ __terminal__themes_typewritten_folder_path }}/async.zsh" "{{ __terminal__themes_folder_path }}/async"'
 
@@ -65,7 +64,13 @@
   when: not is_zsh_setup.stat.exists
   block:
     - name: Terminal -> Setup Git -> User Name
-      ansible.builtin.command: 'git config --global user.name "{{ git_user_name }}"'
-      
+      community.general.git_config:
+        scope: global
+        name: user.name
+        value: "{{ git_user_name }}"
+
     - name: Terminal -> Setup Git -> User Email
-      ansible.builtin.command: 'git config --global user.email "{{ git_user_email }}"'
+      community.general.git_config:
+        scope: global
+        name: user.email
+        value: "{{ git_user_email }}"

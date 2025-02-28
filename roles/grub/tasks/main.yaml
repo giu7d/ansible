@@ -22,7 +22,7 @@
         - "{{ __grub_theme__tmp_folder_path }}/backgrounds/1080p/wave-light.png"
 
     - name: Grub -> Setup Theme -> Copy background image
-      copy:
+      ansible.builtin.copy:
         src: dark-grid.png
         dest: "{{ item }}"
         force: false

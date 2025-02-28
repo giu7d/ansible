@@ -3,42 +3,44 @@
     path: "{{ __gnome_desktop__wallpaper_file_path }}"
   register: is_files_setup
 
-
 - name: Gnome Desktop -> Setup Files
   when: not is_files_setup.stat.exists
   block:
     - name: Gnome Desktop -> Setup Files -> Ensure Wallpaper dir exists
-      file: 
+      ansible.builtin.file:
         path: "{{ __gnome_desktop__wallpaper_folder_path }}"
         state: directory
+        mode: "0755"
 
     - name: Gnome Desktop -> Setup Files -> Ensure Profile dir exists
-      file: 
+      ansible.builtin.file:
         path: "{{ __gnome_desktop__profile_folder_path }}"
         state: directory
+        mode: "0755"
 
     - name: Gnome Desktop -> Setup Files -> Copy Wallpaper Image
-      copy:
+      ansible.builtin.copy:
         src: Wallpapers/{{ __gnome_desktop__wallpaper_file_name }}
         dest: "{{ __gnome_desktop__wallpaper_file_path }}"
+        mode: "0755"
 
     - name: Gnome Desktop -> Setup Files -> Copy Profile Image
-      copy:
+      ansible.builtin.copy:
         src: Profiles/{{ __gnome_desktop__profile_file_name }}
         dest: "{{ __gnome_desktop__profile_file_path }}"
-
+        mode: "0755"
 
 - name: Gnome Desktop -> Setup Gnome Settings
   when: not is_files_setup.stat.exists
   block:
     - name: Gnome Desktop -> Setup Gnome Settings -> Set Dark Color Scheme
       ansible.builtin.command: gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-    
+
     - name: Gnome Desktop -> Setup Gnome Settings -> Set Tiel Accent Color
       ansible.builtin.command: gsettings set org.gnome.desktop.interface accent-color slate
-    
+
     - name: Gnome Desktop -> Setup Gnome Settings -> Set Light Background Image
       ansible.builtin.command: gsettings set org.gnome.desktop.background picture-uri "file://{{ __gnome_desktop__wallpaper_file_path }}"
-    
+
     - name: Gnome Desktop -> Setup Gnome Settings -> Set Dark Background Image
       ansible.builtin.command: gsettings set org.gnome.desktop.background picture-uri-dark "file://{{ __gnome_desktop__wallpaper_file_path }}"

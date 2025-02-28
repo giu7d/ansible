@@ -41,6 +41,6 @@
       failed_when: false
 
     - name: AUR -> Setup -> Update packages
-      ansible.builtin.pacman:
+      community.general.pacman:
         update_cache: true
       changed_when: false

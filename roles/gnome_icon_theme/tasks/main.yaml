@@ -13,6 +13,7 @@
         repo: "{{ __gnome_icon_theme__git_repo }}"
         dest: "{{ __gnome_icon_theme__tmp_folder_path }}"
         update: true
+        force: true
 
     - name: Gnome Icon Theme -> Setup -> Install theme
       ansible.builtin.command: "./install.sh -a -b"

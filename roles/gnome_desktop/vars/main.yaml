@@ -1,9 +1,7 @@
-
 __gnome_desktop__picture_folder_path: "~/Pictures"
 
 __gnome_desktop__wallpaper_folder_path: "{{ __gnome_desktop__picture_folder_path }}/Wallpapers"
 __gnome_desktop__profile_folder_path: "{{ __gnome_desktop__picture_folder_path }}/Profiles"
-
 
 __gnome_desktop__wallpaper_file_name: "wallpaper-arch.png"
 __gnome_desktop__profile_file_name: "profile-cat-pixel.jpg"

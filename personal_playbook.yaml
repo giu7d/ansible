@@ -7,6 +7,17 @@
     - dotfiles
     - terminal
     - gnome_icon_theme
+    #
+    # TODO:
+    #   This role need to be refactor,
+    #   it is not working properly and
+    #   sometimes breaks the installed extensions and pipelines
+    #
     # - gnome_extensions
     - gnome_desktop
-    - brtfs_snapshots
+    #
+    # TODO:
+    #   This role need to be refactor,
+    #   it is not working properly and breaks grub.cfg after yay updates
+    #   The grub error is caused by `timeshift-autosnap` package
+    # - brtfs_snapshots
