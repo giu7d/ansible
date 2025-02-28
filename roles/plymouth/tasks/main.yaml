@@ -1,0 +1,52 @@
+- name: Plymouth -> Check If Plymouth Exist
+  ansible.builtin.stat:
+    path: "{{ __plymouth__plymouth_conf_path }}"
+  register: is_plymouth_setup
+
+- name: Plymouth -> Install
+  when: not is_plymouth_setup.stat.exists
+  become: true
+  yay:
+    name:
+      - plymouth
+      - cantarell-fonts
+      - ttf-dejavu
+      - chaotic-aur/plymouth-theme-hexagon-2-git
+    state: present
+
+- name: Plymouth -> Setup
+  when: not is_plymouth_setup.stat.exists
+  become: true
+  block:
+    - name: Plymouth -> Setup -> Add plymouth to mkinitcpio.conf HOOKS
+      ansible.builtin.replace:
+        path: "{{ __plymouth__mkinitcpio_conf_path }}"
+        regexp: "^HOOKS=.*"
+        replace: "HOOKS=(base udev plymouth autodetect microcode modconf kms keyboard keymap consolefont block filesystems fsck)"
+
+    - name: Plymouth -> Setup -> Build initramfs
+      ansible.builtin.command: mkinitcpio -P
+
+    - name: Plymouth -> Setup -> Add splash screen to grub
+      ansible.builtin.replace:
+        path: "{{ __plymouth__grub_conf_path }}"
+        regexp: "^GRUB_CMDLINE_LINUX_DEFAULT=.*"
+        replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 splash"'
+
+    - name: Plymouth -> Setup -> Build grub
+      ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
+
+    - name: Plymouth -> Setup -> Create plymouth wait service
+      ansible.builtin.copy:
+        src: "{{ __plymouth__wait_for_service_name }}"
+        dest: "{{ __plymouth__wait_for_service_file_path }}"
+        mode: "0755"
+
+    - name: Plymouth -> Setup -> Enable plymouth wait service
+      ansible.builtin.systemd:
+        name: "{{ __plymouth__wait_for_service_name }}"
+        enabled: true
+        state: started
+
+    - name: Plymouth -> Setup -> Set hexagon theme
+      ansible.builtin.command: plymouth-set-default-theme -R hexagon_2

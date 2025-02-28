@@ -1,0 +1,5 @@
+__plymouth__mkinitcpio_conf_path: "/etc/mkinitcpio.conf"
+__plymouth__grub_conf_path: "/etc/default/grub"
+__plymouth__plymouth_conf_path: "/etc/plymouth/plymouthd.conf"
+__plymouth__wait_for_service_name: "plymouth-wait-for-animation.service"
+__plymouth__wait_for_service_file_path: "/etc/systemd/system/{{ __plymouth__wait_for_service_name }}"
