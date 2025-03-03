@@ -49,6 +49,5 @@
           - tv.plex.PlexDesktop
           - org.gnome.Decibels
           # Games
-          - com.valvesoftware.Steam
           - com.usebottles.bottles
         state: latest
