@@ -41,6 +41,7 @@
         src: "{{ __plymouth__wait_for_service_name }}"
         dest: "{{ __plymouth__wait_for_service_file_path }}"
         mode: "0755"
+        force: true
 
     - name: Plymouth -> Setup -> Enable plymouth wait service
       ansible.builtin.systemd:

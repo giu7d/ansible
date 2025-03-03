@@ -1,4 +1,5 @@
 __btrfs_snapshots__grub_btrfs_service_name: "grub-btrfsd.service"
 __btrfs_snapshots__grub_btrfs_service_path: "/etc/systemd/system/{{ __btrfs_snapshots__grub_btrfs_service_name }}"
 
-__btrfs_snapshots__timeshift_autosnap_config_path: "/etc/timeshift-autosnap.conf"
+__btrfs_snapshots__timeshift_autosnap_config_name: "timeshift-autosnap.conf"
+__btrfs_snapshots__timeshift_autosnap_config_path: "/etc/{{ __btrfs_snapshots__timeshift_autosnap_config_name }}"

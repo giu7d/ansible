@@ -23,6 +23,7 @@
         src: "{{ __btrfs_snapshots__grub_btrfs_service_name }}"
         dest: "{{ __btrfs_snapshots__grub_btrfs_service_path }}"
         mode: "0755"
+        force: true
 
     - name: BTRFS Snapshots -> Setup -> Start grub btrfs daemon service
       ansible.builtin.systemd:
@@ -30,8 +31,9 @@
         state: started
         enabled: true
 
-    - name: BTRFS Snapshots -> Setup -> Disable timeshift autosnap update grub
-      ansible.builtin.replace:
-        path: "{{ __btrfs_snapshots__timeshift_autosnap_config_path }}"
-        regexp: "^updateGrub=.*"
-        replace: "updateGrub=false"
+    - name: BTRFS Snapshots -> Setup -> Replace timeshift autosnap configuration
+      ansible.builtin.copy:
+        src: "{{ __btrfs_snapshots__timeshift_autosnap_config_name }}"
+        dest: "{{ __btrfs_snapshots__timeshift_autosnap_config_path }}"
+        mode: "0644"
+        force: true
