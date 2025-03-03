@@ -15,10 +15,5 @@
     #
     # - gnome_extensions
     - gnome_desktop
-    #
-    # TODO:
-    #   This role need to be refactor,
-    #   it is not working properly and breaks grub.cfg after yay updates
-    #   The grub error is caused by `timeshift-autosnap` package
-    # - brtfs_snapshots
+    - btrfs_snapshots
     - plymouth

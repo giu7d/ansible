@@ -1,0 +1,37 @@
+- name: BTRFS Snapshots -> Check if BTRFS snapshot files exist
+  ansible.builtin.stat:
+    path: "{{ __btrfs_snapshots__grub_btrfs_service_path }}"
+  register: is_btrfs_snapshots_setup
+
+- name: BTRFS Snapshots -> Install
+  when: not is_btrfs_snapshots_setup.stat.exists
+  become: true
+  yay:
+    name:
+      - inotify-tools
+      - timeshift
+      - grub-btrfs
+      - chaotic-aur/timeshift-autosnap
+    state: present
+
+- name: BTRFS Snapshots -> Setup
+  when: not is_btrfs_snapshots_setup.stat.exists
+  become: true
+  block:
+    - name: BTRFS Snapshots -> Setup -> Create grub btrfs daemon service
+      ansible.builtin.copy:
+        src: "{{ __btrfs_snapshots__grub_btrfs_service_name }}"
+        dest: "{{ __btrfs_snapshots__grub_btrfs_service_path }}"
+        mode: "0755"
+
+    - name: BTRFS Snapshots -> Setup -> Start grub btrfs daemon service
+      ansible.builtin.systemd:
+        name: grub-btrfsd
+        state: started
+        enabled: true
+
+    - name: BTRFS Snapshots -> Setup -> Disable timeshift autosnap update grub
+      ansible.builtin.replace:
+        path: "{{ __btrfs_snapshots__timeshift_autosnap_config_path }}"
+        regexp: "^updateGrub=.*"
+        replace: "updateGrub=false"

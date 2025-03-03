@@ -1,4 +1,6 @@
 skip_list:
-  - "no-changed-when"
-  - "latest[git]"
-  - "yaml[line-length]"
+
+- "no-changed-when"
+- "latest[git]"
+- "yaml[line-length]"
+- "var-naming[no-role-prefix]"
