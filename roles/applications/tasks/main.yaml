@@ -51,3 +51,12 @@
           # Games
           - com.usebottles.bottles
         state: latest
+
+- name: Applications -> Setup
+  become: true
+  block:
+    - name: Applications -> Setup -> Start pcscd needed by Yubico Authenticator
+      ansible.builtin.systemd:
+        name: pcscd
+        state: started
+        enabled: true
